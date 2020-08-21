@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Thesis</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Return to Home Page</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home Page</a></li>
+								<li><a href="thesis.html">M.S. Thesis</a></li>
+								<li><a href="personalprj.html">Personal Projects</a></li>
+								<li><a href="classprj.html">Coursework Projects</a></li>
+								<li><a href="academic.html">Academic Contributions</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>M.S. Thesis</h2>
+								<p>Defended May 2019. Thesis is on embargo until Summer 2020, so only a summary is provided here.</p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<h3 class="major">Overview</h3>
+									<p>Reliability of blowout preventers (BOPs) is crucial for drilling and production operations. Erosion of BOP components and hydrodynamic forces on rams may cause failure of BOP elements to seal the well. Transient computational fluid dynamics (CFD) simulations of fluids within the wellbore and BOP offer quantitative and qualitative data related to this reliability during the closure of various BOP components. Since limited research has been published in transient CFD simulations of closing BOPs, this thesis discusses challenges and solutions to simulating closing blowout preventers. Single component fluids are simulated through several BOP geometries such as annular preventers, pipe rams, and shear rams. Cavitation, pressure fields, velocity fields, and shear rates along walls are monitored during the simulations. The present work provides a basis to which future directions may be built upon, such as more complex fluid properties.</p>
+									<p> An example of simulation results is shown below. On the left, you can see a velocity field contour, which shows areas of flow recirculation and flow separation. On the right, you can see shear stress contours on the faces of ram walls.</p>	
+										<div class="box alt">
+											<div class="row gtr-uniform">
+												<div class="col-12"><span class="image fit"><img src="images/ContourImages.PNG" alt="" /></span></div>
+											</div>
+										</div>
+									<h3 class="major">Introduction/Background</h3>
+									<p>During the drilling process, influx of fluid from a formation may occur into the wellbore. Influx of fluid may occur for many reasons, such as an insufficient pressure provided by the drilling fluid. In cases as these, a blowout preventer (BOP) may be closed to control the well. A BOP is essentially a series of valves located at the top of a well that serves as a secondary means of controlling the well. An illustration of a BOP stack with labeled components is shown below.  A BOP consists of various sealing mechanisms such as pipe rams, shear rams, and an annular preventer. Each of these components can be investigated separately through simulation.</p>
+									<section>
+										<div class="box alt">
+											<div class="row gtr-uniform">
+												<div class="col-2"><span class="image fit"><img src="" alt="" /></span></div>
+												<div class="col-4"><span class="image fit"><img src="images/Fluid Influx.png" alt="" /></span></div>
+												<div class="col-3"><span class="image fit"><img src="images/BOPStack.png" alt="" /></span></div>
+											</div>
+										</div>
+									</section>
+									<h3 class="major">Challenges for simulation closing blowout preventers</h3>
+									<h4>Moving Boundaries and Dynamic Meshing</h4>
+									<p>Many challenges exist when simulating fluid flow through closing blowout preventers. Not all challenges are solved in this thesis work, but some of them are shown in this section. One issue with simulating closing blowout preventers is that extreme deformations will occur in the meshes. Because of these extreme deformations, remeshing of the computational domain must be done throughout the entire simulation. Some remeshing strategies to maintain a high quality mesh will be described later.</p>
+									<p>	Many CFD software packages, including ANSYS Fluent, already have dynamic meshing capabilities. An example of layering applied to an axisymmetric domain is shown below.</p>
+									<video width ="1000" height ="600" align="middle" controls autoplay loop muted">
+									<source src="images/BOP1.webm" type="video/webm">
+									</video>
+									<p></p>
+									<p>	One issue that will pop up regarding these moving meshes is related to the boundary layer. Since we are interested in physical quantities (such as shear stress) along the walls, it's important that the boundary layer is accurately resolved. Because the flow field through the domain is constantly changing (generally increasing velocity), the initial boundary layer will not be refined enough as the simulation progresses. To deal with this, instead of only using 1 mesh, several different meshes are used throughout the entire simulation. Each subsequent mesh has further refined prism layers. An example of a case setup is shown below</p>
+									<section>
+										<div class="box alt">
+												<div class="row gtr-uniform">
+													<div class="col-12"><span class="image fit"><img src="images/multiMesh.PNG" alt="" /></span></div>
+												</div>
+										</div>
+									</section>
+									<h4>Boundary Conditions</h4>
+									<p>Another challenge in simulating closing blowout preventers is boundary conditions. For example, we can't use a constant inlet velocity profile if you want an accurate representation of the inlet flow velocity through a BOP. A constant pressure boundary condition does exist, but it's at the reservoir, thousands of feet below the BOP. It is computationally impractical to simulate this using CFD. So instead, what I did was code a simple 1D numerical solver of transient flow throughout the wellbore using the Method of Characteristics.</p>
+									<section>
+										<div class="box alt">
+												<div class="row gtr-uniform">
+													<div class="col-12"><span class="image fit"><img src="images/BC.PNG" alt="" /></span></div>
+												</div>
+										</div>
+									</section>
+									<p>	All I'm doing is solving for the transient pressure and velocity profile throughout the wellbore, which provides a connection between the BOP and the constant pressure reservoir.</p>
+									<section>
+										<div class="box alt">
+												<div class="row gtr-uniform">
+													<div class="col-12"><span class="image fit"><img src="images/wellbore.PNG" alt="" /></span></div>
+												</div>
+										</div>
+									</section>
+									<p> 	The coupling algorithm is shown below. It is just a simple explicit coupling algorithm between the CFD domain and the wellbore domain. The CFD domain will run for 1 timestep until convergence. After convergence, it sends pressure as a boundary condition to the top of the wellbore domain. The wellbore domain will then run for 1 timestep. The wellbore domain will then calculate the inlet velocity boundary condition of the BOP domain for the next timestep. All of the numerical wellbore calculations are done in the ANSYS Fluent UDF.</p>
+									<section>
+										<div class="box alt">
+												<div class="row gtr-uniform">
+													<div class="col-12"><span class="image fit"><img src="images/algorithm.PNG" alt="" /></span></div>
+												</div>
+										</div>
+									</section>
+									<h4>Numerical Instability from the Coupled Simulations</h4>
+									<h3 class="major">Possible future directions</h3>
+									<p></p>
+
+									<section class="features">
+							</section>
+
+									
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
